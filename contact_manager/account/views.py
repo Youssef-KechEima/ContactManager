@@ -39,8 +39,6 @@ def RegisterPage(request):
                         auth_token = str(uuid.uuid4())
                     )
                     user_profile = UserProfile.objects.create(user=myuser)
-                    user_profile.addresses = None
-                    user_profile.phone_number = None
                     send_email_token(email,email_obj.auth_token)
                     messages.success(request,'Account created successfully, please verify your email!')
                     return redirect('login')
