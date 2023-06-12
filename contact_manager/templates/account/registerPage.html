@@ -1,0 +1,91 @@
+{% extends 'core/base.html' %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="row mt-5">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body">
+      <h1 class="text-center mb-3">
+        <i class="fas fa-user-plus"></i>&nbsp;Register
+      </h1>
+      {% include 'partials/messages.html' %}
+      <form action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="Firstname">Firstname</label>
+          <input
+            type="name"
+            id="Firstname"
+            name="Firstname"
+            class="form-control"
+            placeholder="Enter Name"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="Lastname">Lastname</label>
+          <input
+            type="name"
+            id="Lastname"
+            name="Lastname"
+            class="form-control"
+            placeholder="Enter Name"
+            required
+          />
+          <div class="form-group">
+            <label for="Lastname">Username</label>
+            <input
+              type="name"
+              id="username"
+              name="username"
+              class="form-control"
+              placeholder="Enter Name"
+              required
+            />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-control"
+            placeholder="Enter Email"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-control"
+            placeholder="Create Password"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password2">Confirm Password</label>
+          <input
+            type="password"
+            id="password2"
+            name="password2"
+            class="form-control"
+            placeholder="Confirm Password"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Register</button>
+      </form>
+      <p class="lead mt-4">Have An Account? <a href="{% url 'login' %}">Login</a></p>
+    </div>
+  </div>
+</div>
+<script>
+  setTimeout(() => {
+    if($('#msg').length > 0){
+      $('#msg').remove();
+    }
+  }, 4000);
+</script>
+{% endblock %}

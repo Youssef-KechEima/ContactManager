@@ -1,0 +1,54 @@
+{% extends 'core/base.html' %}
+{% block title %}DashBoard{% endblock %}
+{% block content2 %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'main.css' %}">
+<div class="hero">
+    <nav>
+        <h4 class="logo" style="color: white;">Welcome {{ data }}</h4>
+        <ul>
+            <li><a href="{% url 'dashboard' user.username %}">Home</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+        {% if profile.user_avatar == '' %}
+        <img src="{% static 'user.jpg' %}" class="user-pic" onclick="toggleMenu()">
+        {% else %}
+        <img src="{{ profile.user_avatar.url }}" class="user-pic" onclick="toggleMenu()">
+        {% endif %}
+        <div class="sub-menu-wrap" id="subMenu">
+            <div class="sub-menu">
+                <div class="user-info">
+                    {% if profile.user_avatar == '' %}
+                    <img src="{% static 'user.jpg' %}">
+                    {% else %}
+                    <img src="{{ profile.user_avatar.url }}">
+                    {% endif %}
+                    <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                </div>
+                <hr>
+                <a href="{% url 'edit_profile' user.username %}" class="sub-menu-link">
+                    <img src="{% static 'profile.png' %}">
+                    <p>Edit Profile</p>
+                    <span>></span>
+                </a>
+                <a href="{% url 'settings' user.username %}" class="sub-menu-link">
+                    <img src="{% static 'setting.png' %}">
+                    <p>Settings</p>
+                    <span>></span>
+                </a>
+                <a href="{% url 'logout' %}" class="sub-menu-link">
+                    <img src="{% static 'logout.png' %}">
+                    <p>Log out</p>
+                    <span>></span>
+                </a>
+            </div>
+        </div>
+    </nav>
+</div>
+<script>
+    let subMenu = document.getElementById("subMenu");
+    function toggleMenu(){
+        subMenu.classList.toggle("open-menu");
+    }
+</script>
+{% endblock %}
