@@ -103,6 +103,8 @@ def newPassword(request,token):
         email = request.POST.get('email')
         try:
             user = User.objects.get(email=email)
+            if len(new_password) < 8:
+                messages.warning(request,'Password must have more than 8 characters !')
             if new_password != new_password2:
                 messages.warning(request,'Password does not match')
             else:
