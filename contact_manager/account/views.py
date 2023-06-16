@@ -84,6 +84,7 @@ def LogOutPage(request):
 def restPassword(request):
     if request.method == 'POST':
         email = request.POST.get('email')
+        request.session['email'] = email
         try:
             user =User.objects.get(email=email)
             obj_email = EmailVerification.objects.get(user=user)
@@ -96,11 +97,10 @@ def restPassword(request):
     return render(request,'account/resetPassword.html')
 
 def newPassword(request,token):
-    
+    email = request.session['email']
     if request.method == 'POST':
         new_password = request.POST.get('new_password')
         new_password2 = request.POST.get('new_password2')
-        email = request.POST.get('email')
         try:
             user = User.objects.get(email=email)
             if len(new_password) < 8:
@@ -113,6 +113,6 @@ def newPassword(request,token):
                 messages.success(request,'Password Changed successfully')
                 return redirect('login')
         except:
-            messages.warning(request,'email does not exist')
+            messages.warning(request,'Something went wrong')
 
     return render(request,'account/newPassword.html',{'tk':token})
