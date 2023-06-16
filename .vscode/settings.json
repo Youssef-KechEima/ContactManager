@@ -3,6 +3,8 @@
         "addresse",
         "Firstname",
         "Lastname",
+        "modaledit",
+        "mymodal",
         "myuser",
         "verifyemail"
     ]
