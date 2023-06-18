@@ -7,4 +7,5 @@ urlpatterns = [
     path('<str:uname>/edit_profile/',views.EditProfile,name='edit_profile'),
     path('<str:uname>/settings/',views.Settings,name='settings'),
     path('<str:uname>/delete_account',views.DeleteAccount,name="delete_account"),
+    path('<str:uname>/insert',views.insert,name="insert"),
 ]

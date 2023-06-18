@@ -47,6 +47,7 @@
     <div class="container">
         <div class="row">
             <div class="col md-12">
+                {% include 'partials/messages.html' %}
                 <div class="jumbotron p-3">
                     <h2>Manage <b>Contacts</b> <button type="button" class="btn btn-success float-right" 
                     data-toggle="modal" data-target="#mymodal">Add New Contact</button></h2>
@@ -59,18 +60,19 @@
                             <th>PHONE_NUMBER</th>
                             <th>ACTION</th>
                         </tr>
+                        {% for item in contact %}
                         <tr>
-                            <td>1</td>
-                            <td>Jack Chirak</td>
-                            <td>Chirak@gmail.com</td>
-                            <td>0638745765</td>
+                            <td>{{ item.id }}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.email}}</td>
+                            <td>{{item.phone_number}}</td>
                             <td>
-                                <a href="#" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit">Edit</a>
+                                <a href="#" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{ item.id }}">Edit</a>
                                 <a href="#" class="btn btn-danger btn-xs" onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
                             </td>
                         </tr>
 
-                        <div id="modaledit" class="modal fade" role="dialog">
+                        <div id="modaledit{{ item.id }}" class="modal fade" role="dialog">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -81,15 +83,15 @@
                                             {% csrf_token %}
                                             <div class="form-group">
                                                 <label>NAME</label>
-                                                <input type="text" class="form-control" name="name" required>
+                                                <input type="text" class="form-control" name="name" required value="{{ item.name }}">
                                             </div>
                                             <div class="form-group">
                                                 <label>EMAIL</label>
-                                                <input type="email" class="form-control" name="email" required>
+                                                <input type="email" class="form-control" name="email" required value="{{ item.email }}">
                                             </div>
                                             <div class="form-group">
                                                 <label>PHONE_NUMBER</label>
-                                                <input type="number" class="form-control" name="phone_number" required>
+                                                <input type="number" class="form-control" name="phone_number" required value="{{ item.phone_number }}">
                                             </div>
                                             <div class="form-group">
                                                 <button class="btn btn-primary" type="submit">Update Contact</button>
@@ -102,7 +104,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        {% endfor %}
                     </table>
                 </div>
 
@@ -113,7 +115,7 @@
                                 <h4 class="modal-title">Add Contact</h4>
                             </div>
                             <div class="modal-body">
-                                <form action="" method="POST">
+                                <form action="{% url 'insert' user.username %}" method="POST">
                                     {% csrf_token %}
                                     <div class="form-group">
                                         <label>NAME</label>
@@ -149,5 +151,10 @@
     function toggleMenu(){
         subMenu.classList.toggle("open-menu");
     }
+    setTimeout(() => {
+      if($('#msg').length > 0){
+        $('#msg').remove();
+      }
+    }, 4000);
 </script>
 {% endblock %}

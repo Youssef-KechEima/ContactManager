@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.contrib.auth.hashers import check_password
 from account.models import UserProfile
+from .models import Contacts
 from django.contrib import messages
 
 def frontpage(request):
@@ -14,10 +15,12 @@ def dashboard(request, uname):
     user = User.objects.get(username=uname)
     request.session['uname'] = user.username
     user_profile = UserProfile.objects.get(user=user)
+    contact = Contacts.objects.filter(user=user).all()
     context = {
         'data':uname,
         'user':user,
         'profile':user_profile,
+        'contact':contact,
     }
     return render(request,'core/dashboard.html',context)
 
@@ -82,3 +85,23 @@ def DeleteAccount(request, uname):
     logout(request)
     messages.success(request,'You have Deleted your account')
     return redirect('login')
+
+@login_required(login_url='/user/login')
+def insert(request,uname):
+    uname = request.session['uname']
+    user  = User.objects.get(username=uname)
+    if request.method == "POST":
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone_number = request.POST.get('phone_number')
+        try:
+            contact = Contacts.objects.create(user=user)
+            contact.name = name
+            contact.email = email
+            contact.phone_number = phone_number
+            contact.save()
+            messages.success(request,'Contact Added successfully')
+            return redirect('dashboard',uname)
+        except:
+            messages.warning(request,'Something went wrong Try Again')
+            return redirect('dashboard',uname)
