@@ -103,5 +103,38 @@ def insert(request,uname):
             messages.success(request,'Contact Added successfully')
             return redirect('dashboard',uname)
         except:
-            messages.warning(request,'Something went wrong Try Again')
+            messages.warning(request,'Something went wrong, Try Again')
+            return redirect('dashboard',uname)
+
+@login_required(login_url='/user/login')
+def Delete(request,uname,id):
+    uname = request.session['uname']
+    user  = User.objects.get(username=uname)
+    contact = Contacts.objects.get(user=user,id=id)
+    try:
+        contact.delete()
+        messages.success(request,'Contact Deleted Successfully')
+        return redirect('dashboard',uname)
+    except:
+        messages.warning(request,'Something went wrong, try again !')
+        return redirect('dashboard',uname)
+
+@login_required(login_url='/user/login')
+def Edit(request,uname,id):
+    uname = request.session['uname']
+    user  = User.objects.get(username=uname)
+    contact = Contacts.objects.get(user=user,id=id)
+    if request.method == "POST":
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone_number = request.POST.get('phone_number')
+        try:
+            contact.name = name
+            contact.email = email
+            contact.phone_number = phone_number
+            contact.save()
+            messages.success(request,'Contact Updated Successfully')
+            return redirect('dashboard',uname)
+        except:
+            messages.warning(request,'Something went wrong, try again !')
             return redirect('dashboard',uname)

@@ -85,7 +85,7 @@
                         <div class="card-body">
                             <form action="{% url 'delete_account' user.username %}" method="POST">
                                 {% csrf_token %}
-                                <button class="btn btn-primary btn-block"  id="Save" type="submit">Delete Account</button>
+                                <button class="btn btn-primary btn-block"  id="Save" type="submit" onclick="return confirm('Are You Sure You Want To Delete Your Account ?')">Delete Account</button>
                             </form>
                         </div>
                     </div>
